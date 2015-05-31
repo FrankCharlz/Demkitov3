@@ -11,8 +11,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
-import android.text.SpannableString;
-import android.text.Spanned;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,9 +18,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mj.cheapgoogle.CheapMP3;
-import com.mj.demkito.R;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -107,19 +103,15 @@ public class MainActivity extends AppCompatActivity {
         imageView.setImageMatrix(matrix);
 
         //animate throught out the width of the image view --wrap--content...
+
         ValueAnimator mAnimator = ValueAnimator.ofFloat(0, imageView.getWidth());
-        mAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                float value = (Float) animation.getAnimatedValue();
-                matrix.reset();
-                matrix.postScale(scaleFactor, scaleFactor);
-                matrix.postTranslate(-value, 0);
-                imageView.setImageMatrix(matrix);
-            }
-        });
-        mAnimator.setDuration(5000);
+        MjAnimatorListener mAnimationListener = new MjAnimatorListener(matrix, imageView, scaleFactor, mAnimator);
+        mAnimator.addUpdateListener(mAnimationListener);
+        mAnimator.addListener(mAnimationListener);
+        mAnimator.setDuration(20000);
         mAnimator.start();
+
+        //0
 
     }
 
