@@ -88,38 +88,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         if (started_from_menu) {
-            animateBackground();
+            new BackgroundAnimation((ImageView)findViewById(R.id.imageView)).start();
         }
         super.onWindowFocusChanged(hasFocus);
-    }
-
-    private void animateBackground() {
-        final ImageView imageView = (ImageView) findViewById(R.id.imageView);
-        final Drawable drawable = imageView.getDrawable();
-        final float scaleFactor = (float)imageView.getHeight() / (float)drawable.getIntrinsicHeight();
-
-        M.logger(imageView.getHeight()+" Imageview height");
-        M.logger(drawable.getIntrinsicHeight()+" Drawable height");
-        M.logger(imageView.getWidth()+" Imageview width");
-        M.logger(drawable.getIntrinsicWidth()+" Drawable width");
-        M.logger(scaleFactor+" height scale factor");
-
-        final Matrix matrix = new Matrix();
-        matrix.postScale(scaleFactor, scaleFactor);
-
-        imageView.setImageDrawable(drawable);
-        imageView.setImageMatrix(matrix);
-
-        //animate throught out the width of the image view --wrap--content...
-        ValueAnimator mAnimator = ValueAnimator.ofFloat(0, imageView.getWidth());
-        //mAnimator.setInterpolator(new LinearInterpolator());
-
-        MjAnimatorListener mAnimationListener = new MjAnimatorListener(matrix, imageView, scaleFactor);
-        mAnimator.addUpdateListener(mAnimationListener);
-        mAnimator.addListener(mAnimationListener);
-        mAnimator.setDuration(15000);
-        mAnimator.start();
-
     }
 
     private float getScreenWidth() {
