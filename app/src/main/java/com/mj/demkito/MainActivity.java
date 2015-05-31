@@ -1,5 +1,6 @@
 package com.mj.demkito;
 
+import android.animation.TimeInterpolator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
@@ -11,9 +12,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
+import android.util.DisplayMetrics;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,6 +29,7 @@ import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static  float DEVICE_SCREEN_WIDTH;
     private TextView tv;
     private CheapMP3 cmp;
     protected MediaPlayer mp;
@@ -43,8 +47,8 @@ public class MainActivity extends AppCompatActivity {
         context = getApplicationContext();
 
         initViews();
-
         M.checkAndCreateFolders();
+        DEVICE_SCREEN_WIDTH = getScreenWidth();
 
         final Intent intent = getIntent();
         M.logger("Action : " + intent.getAction());
@@ -93,9 +97,13 @@ public class MainActivity extends AppCompatActivity {
         final ImageView imageView = (ImageView) findViewById(R.id.imageView);
         final Drawable drawable = imageView.getDrawable();
         final float scaleFactor = (float)imageView.getHeight() / (float)drawable.getIntrinsicHeight();
-        M.logger(imageView.getHeight()+" drawable height");
-        M.logger(drawable.getIntrinsicHeight()+" drawable height");
-        M.logger(scaleFactor+" scale factor");
+
+        M.logger(imageView.getHeight()+" Imageview height");
+        M.logger(drawable.getIntrinsicHeight()+" Drawable height");
+        M.logger(imageView.getWidth()+" Imageview width");
+        M.logger(drawable.getIntrinsicWidth()+" Drawable width");
+        M.logger(scaleFactor+" height scale factor");
+
         final Matrix matrix = new Matrix();
         matrix.postScale(scaleFactor, scaleFactor);
 
@@ -103,16 +111,21 @@ public class MainActivity extends AppCompatActivity {
         imageView.setImageMatrix(matrix);
 
         //animate throught out the width of the image view --wrap--content...
-
         ValueAnimator mAnimator = ValueAnimator.ofFloat(0, imageView.getWidth());
-        MjAnimatorListener mAnimationListener = new MjAnimatorListener(matrix, imageView, scaleFactor, mAnimator);
+        //mAnimator.setInterpolator(new LinearInterpolator());
+
+        MjAnimatorListener mAnimationListener = new MjAnimatorListener(matrix, imageView, scaleFactor);
         mAnimator.addUpdateListener(mAnimationListener);
         mAnimator.addListener(mAnimationListener);
-        mAnimator.setDuration(20000);
+        mAnimator.setDuration(15000);
         mAnimator.start();
 
-        //0
+    }
 
+    private float getScreenWidth() {
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        return (float) displaymetrics.widthPixels;
     }
 
     private void showInstruction() {
