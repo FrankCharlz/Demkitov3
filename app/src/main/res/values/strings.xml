@@ -4,7 +4,6 @@
     <string name="app_name">Demkito</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="no_song">To use this app: Go to your audio player or file browser,
-        select the song you want to edit and press share. In the context menu select Demkito.</string>
+    <string name="no_song"></string>
 
 </resources>

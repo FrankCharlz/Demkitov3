@@ -10,6 +10,9 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -94,24 +97,31 @@ public class MainActivity extends AppCompatActivity {
         final float scaleFactor = (float)imageView.getHeight() / (float)pic1.getIntrinsicHeight();
         matrix.postScale(scaleFactor, scaleFactor);
 
-        ValueAnimator mAnimator = ValueAnimator.ofFloat(0, 100);
+
+        ValueAnimator mAnimator = ValueAnimator.ofFloat(20, 100);
         mAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 float value = (Float) animation.getAnimatedValue();
                 matrix.reset();
                 matrix.postScale(scaleFactor, scaleFactor);
-                matrix.postTranslate(-value, 0);
+                matrix.postTranslate(90, 0);
                 imageView.setImageMatrix(matrix);
+                M.logger("Animating..");
 
             }
         });
-        mAnimator.setDuration(5000);
+        mAnimator.setDuration(700);
         mAnimator.start();
 
 
         final TextView p = (TextView) findViewById(R.id.instructions);
         p.setTypeface(roboto);
+        String html = "To use this app: \n" +
+                "<li>Go to your <strong>audio player</strong> or <strong>file browser</strong></li>\n" +
+                "<li>Select the song you want to edit and press <strong>share</strong> \n" +
+                "<li>In the context menu select <strong>Demkito</strong></li>.";
+        p.setText(Html.fromHtml(html));
     }
 
     class ButtonClicks implements OnClickListener{
