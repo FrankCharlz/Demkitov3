@@ -16,35 +16,33 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         android:elevation="4dp"/>
 
-
-
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/listening2"
+            android:scaleType="matrix"
+            android:adjustViewBounds="true"/>
+
+        <TextView
+            android:id="@+id/instructions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:background="@color/colorPrimaryDark"
-            android:src="@drawable/listening"/>
-
+            android:padding="24dp"
+            android:layout_margin="24dp"
+            android:textSize="20sp"
+            android:textColor="#ffffff"
+            android:background="#753b3849"
+            android:layout_gravity="bottom"
+            android:text="@string/no_song"/>
 
 
 
     </FrameLayout>
-
-    <TextView
-        android:id="@+id/instructions"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="24dp"
-        android:layout_margin="24dp"
-        android:textSize="20sp"
-        android:textColor="#ffffff"
-        android:background="#753b3849"
-        android:layout_gravity="bottom"
-        android:text="@string/no_song"/>
 
 
 

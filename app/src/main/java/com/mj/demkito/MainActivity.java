@@ -1,8 +1,11 @@
 package com.mj.demkito;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Matrix;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,6 +14,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mikepenz.materialdrawer.DrawerBuilder;
@@ -47,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (intent.getAction().toString().contains("MAIN")) {
             //started from the menu...
+            M.logger("Started normally");
             showInstruction();
         } else {
             //started by sharing
@@ -78,8 +83,35 @@ public class MainActivity extends AppCompatActivity {
 
     private void showInstruction() {
         setContentView(R.layout.activity_no_song);
-        //final TextView p = (TextView) findViewById(R.id.instructions);
-        //p.setTypeface(roboto);
+
+        final Matrix matrix = new Matrix();
+
+        Drawable pic1 = getResources().getDrawable(R.drawable.listening);
+        Drawable pic2 = getResources().getDrawable(R.drawable.listening2);
+
+        final ImageView imageView = (ImageView) findViewById(R.id.imageView);
+        imageView.setImageDrawable(pic2);
+        final float scaleFactor = (float)imageView.getHeight() / (float)pic1.getIntrinsicHeight();
+        matrix.postScale(scaleFactor, scaleFactor);
+
+        ValueAnimator mAnimator = ValueAnimator.ofFloat(0, 100);
+        mAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float value = (Float) animation.getAnimatedValue();
+                matrix.reset();
+                matrix.postScale(scaleFactor, scaleFactor);
+                matrix.postTranslate(-value, 0);
+                imageView.setImageMatrix(matrix);
+
+            }
+        });
+        mAnimator.setDuration(5000);
+        mAnimator.start();
+
+
+        final TextView p = (TextView) findViewById(R.id.instructions);
+        p.setTypeface(roboto);
     }
 
     class ButtonClicks implements OnClickListener{
