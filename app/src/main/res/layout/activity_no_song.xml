@@ -24,6 +24,7 @@
             android:id="@+id/imageView"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:src="@drawable/listening2"
             android:scaleType="matrix"
             android:adjustViewBounds="true"/>
 
@@ -35,7 +36,7 @@
             android:layout_margin="24dp"
             android:textSize="20sp"
             android:textColor="#ffffff"
-            android:background="#753b3849"
+            android:background="#953b3849"
             android:layout_gravity="bottom"
             android:text="@string/no_song"/>
 

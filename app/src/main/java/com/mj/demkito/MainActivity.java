@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private Context context;
     private Button button_remove, button_delete;
     private Typeface roboto;
+    private boolean started_from_menu = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (intent.getAction().toString().contains("MAIN")) {
             //started from the menu...
-            M.logger("Started normally");
+            started_from_menu = true;
             showInstruction();
         } else {
             //started by sharing
@@ -84,43 +85,53 @@ public class MainActivity extends AppCompatActivity {
         button_delete.setTypeface(roboto);
     }
 
-    private void showInstruction() {
-        setContentView(R.layout.activity_no_song);
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        if (started_from_menu) {
+            animateBackground();
+        }
+        super.onWindowFocusChanged(hasFocus);
+    }
 
-        final Matrix matrix = new Matrix();
-
-        Drawable pic1 = getResources().getDrawable(R.drawable.listening);
-        Drawable pic2 = getResources().getDrawable(R.drawable.listening2);
-
+    private void animateBackground() {
         final ImageView imageView = (ImageView) findViewById(R.id.imageView);
-        imageView.setImageDrawable(pic2);
-        final float scaleFactor = (float)imageView.getHeight() / (float)pic1.getIntrinsicHeight();
+        final Drawable drawable = imageView.getDrawable();
+        final float scaleFactor = (float)imageView.getHeight() / (float)drawable.getIntrinsicHeight();
+        M.logger(imageView.getHeight()+" drawable height");
+        M.logger(drawable.getIntrinsicHeight()+" drawable height");
+        M.logger(scaleFactor+" scale factor");
+        final Matrix matrix = new Matrix();
         matrix.postScale(scaleFactor, scaleFactor);
 
+        imageView.setImageDrawable(drawable);
+        imageView.setImageMatrix(matrix);
 
-        ValueAnimator mAnimator = ValueAnimator.ofFloat(20, 100);
+        //animate throught out the width of the image view --wrap--content...
+        ValueAnimator mAnimator = ValueAnimator.ofFloat(0, imageView.getWidth());
         mAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 float value = (Float) animation.getAnimatedValue();
                 matrix.reset();
                 matrix.postScale(scaleFactor, scaleFactor);
-                matrix.postTranslate(90, 0);
+                matrix.postTranslate(-value, 0);
                 imageView.setImageMatrix(matrix);
-                M.logger("Animating..");
-
             }
         });
-        mAnimator.setDuration(700);
+        mAnimator.setDuration(5000);
         mAnimator.start();
 
+    }
+
+    private void showInstruction() {
+        setContentView(R.layout.activity_no_song);
 
         final TextView p = (TextView) findViewById(R.id.instructions);
         p.setTypeface(roboto);
         String html = "To use this app: \n" +
-                "<li>Go to your <strong>audio player</strong> or <strong>file browser</strong></li>\n" +
-                "<li>Select the song you want to edit and press <strong>share</strong> \n" +
-                "<li>In the context menu select <strong>Demkito</strong></li>.";
+                "<br><br>Go to your <strong>audio player</strong> or <strong>file browser</strong>\n" +
+                "<br><br>Select the song you want to edit and press <strong>share</strong> \n" +
+                "<br><br>In the context menu select <strong>Demkito</strong>.";
         p.setText(Html.fromHtml(html));
     }
 
