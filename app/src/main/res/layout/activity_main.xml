@@ -4,10 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.mj.demkito.MainActivity">
 
     <android.support.v7.widget.Toolbar
@@ -19,40 +15,49 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         android:elevation="4dp"/>
 
-    <TextView
-        android:id="@+id/tv"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#fafafa"
-        android:padding="16dp"
-        android:textSize="14sp"
-        android:layout_marginTop="6dp"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#fafafa"
+            android:padding="16dp"
+            android:textSize="14sp"
+            android:layout_marginTop="6dp"/>
 
 
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/button1"
-        android:background="@color/button_blue"
-        android:text="REMOVE ADS"
-        android:textColor="#ffffff"
-        android:visibility="visible"
-        android:layout_marginTop="12dp"
-        android:layout_gravity="center_horizontal" />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/button1"
+            android:background="@color/button_blue"
+            android:text="REMOVE ADS"
+            android:textColor="#ffffff"
+            android:visibility="visible"
+            android:layout_marginTop="12dp"
+            android:layout_gravity="center_horizontal" />
 
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/button2"
-        android:layout_marginTop="12dp"
-        android:textColor="#ffffff"
-        android:background="@color/button_red"
-        android:text="DELETE ORIGINAL"
-        android:visibility="visible"
-        android:layout_gravity="center_horizontal" />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/button2"
+            android:layout_marginTop="12dp"
+            android:textColor="#ffffff"
+            android:background="@color/button_red"
+            android:text="DELETE ORIGINAL"
+            android:visibility="visible"
+            android:layout_gravity="center_horizontal" />
 
+
+
+    </LinearLayout>
 
 
 </LinearLayout>
