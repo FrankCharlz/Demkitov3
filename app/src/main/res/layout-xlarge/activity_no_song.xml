@@ -1,0 +1,43 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.mj.demkito.MainActivity"
+    android:background="#3b3849">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="1292dp"
+            android:layout_height="860dp"
+            android:layout_gravity="top"
+            android:adjustViewBounds="true"
+            android:src="@drawable/listening2"/>
+
+        <TextView
+            android:id="@+id/instructions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="#26fafafa"
+            android:padding="40dp"
+            android:layout_margin="40dp"
+            android:textSize="40sp"
+            android:textColor="#000"
+            android:text="@string/no_song"
+            android:layout_marginTop="6dp"/>
+
+
+
+
+    </FrameLayout>
+
+
+
+
+
+
+</LinearLayout>
