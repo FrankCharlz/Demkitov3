@@ -38,6 +38,7 @@ public class MjAnimatorListener implements ValueAnimator.AnimatorUpdateListener,
     public void onAnimationEnd(Animator animation) {
         ANIMATION_DIRECTION *= -1;
         animation.setStartDelay(200);
+       imageView.refreshDrawableState();
         animation.start();
     }
 
