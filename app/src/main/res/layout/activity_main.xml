@@ -53,27 +53,17 @@
             </ScrollView>
 
             <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/ButtonStyle"
                 android:id="@+id/button1"
                 android:background="@color/button_blue"
-                android:text="REMOVE ADS"
-                android:textColor="#ffffff"
-                android:visibility="visible"
-                android:layout_marginTop="12dp"
-                android:layout_gravity="center_horizontal" />
+                android:text="REMOVE ADS" />
 
 
             <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/ButtonStyle"
                 android:id="@+id/button2"
-                android:layout_marginTop="12dp"
-                android:textColor="#ffffff"
                 android:background="@color/button_red"
-                android:text="DELETE ORIGINAL"
-                android:visibility="visible"
-                android:layout_gravity="center_horizontal" />
+                android:text="DELETE ORIGINAL"/>
 
 
         </LinearLayout>
