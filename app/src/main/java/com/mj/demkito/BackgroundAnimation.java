@@ -8,7 +8,7 @@ import android.widget.ImageView;
 
 public class BackgroundAnimation {
 
-    private static final long ANIMATION_DURATION = 15000;
+    private  long ANIMATION_DURATION = 50; //50ms/pixel
     private final ImageView imageview;
     private final Drawable drawable;
     private final float scaleFactor;
@@ -23,6 +23,9 @@ public class BackgroundAnimation {
         //used to scale height to match parent theme... with matrix
         scaleFactor = (float)imageview.getHeight() / (float)drawable.getIntrinsicHeight();
         matrix.postScale(scaleFactor, scaleFactor);
+
+        //set speed
+        ANIMATION_DURATION *= imageview.getWidth();
 
     }
 

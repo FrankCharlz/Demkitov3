@@ -36,7 +36,7 @@
             android:layout_margin="24dp"
             android:textSize="20sp"
             android:textColor="#ffffff"
-            android:background="#953b3849"
+            android:background="@color/text_view_bg"
             android:layout_gravity="bottom"
             android:text="@string/no_song"/>
 

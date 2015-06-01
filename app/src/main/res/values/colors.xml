@@ -5,4 +5,5 @@
     <color name="button_blue">#ff6398f4</color>
     <color name="button_red">#fff40b76</color>
     <color name="white">#ffffff</color>
+    <color name="text_view_bg">#953b3849</color>
 </resources>

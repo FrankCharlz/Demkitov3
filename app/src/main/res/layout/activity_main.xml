@@ -15,49 +15,73 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         android:elevation="4dp"/>
 
-    <LinearLayout
+
+
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/tv"
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/listening2"
+            android:scaleType="matrix"
+            android:adjustViewBounds="true"/>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#fafafa"
-            android:padding="16dp"
-            android:textSize="14sp"
-            android:layout_marginTop="6dp"/>
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <TextView
+                android:id="@+id/tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="24dp"
+                android:layout_marginTop="16dp"
+                android:textSize="20sp"
+                android:textColor="#ffffff"
+                android:background="@color/text_view_bg"
+            />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/button1"
+                android:background="@color/button_blue"
+                android:text="REMOVE ADS"
+                android:textColor="#ffffff"
+                android:visibility="visible"
+                android:layout_marginTop="12dp"
+                android:layout_gravity="center_horizontal" />
+
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/button2"
+                android:layout_marginTop="12dp"
+                android:textColor="#ffffff"
+                android:background="@color/button_red"
+                android:text="DELETE ORIGINAL"
+                android:visibility="visible"
+                android:layout_gravity="center_horizontal" />
+
+
+        </LinearLayout>
 
 
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/button1"
-            android:background="@color/button_blue"
-            android:text="REMOVE ADS"
-            android:textColor="#ffffff"
-            android:visibility="visible"
-            android:layout_marginTop="12dp"
-            android:layout_gravity="center_horizontal" />
-
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/button2"
-            android:layout_marginTop="12dp"
-            android:textColor="#ffffff"
-            android:background="@color/button_red"
-            android:text="DELETE ORIGINAL"
-            android:visibility="visible"
-            android:layout_gravity="center_horizontal" />
+    </FrameLayout>
 
 
 
-    </LinearLayout>
+
+
+
 
 
 </LinearLayout>
+

@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private Context context;
     private Button button_remove, button_delete;
     private Typeface roboto;
-    private boolean gootToAnimate = false;
+    private boolean gootToAnimate = true;
     private String name;
 
     @Override
@@ -53,11 +53,6 @@ public class MainActivity extends AppCompatActivity {
             //showInstructions();
         } else {
             //started by sharing
-            String out = "";
-            out += "\n"+ intent.getAction();
-            out += "\n"+ intent.getType();
-            out += "\n"+ intent.getDataString();
-            M.logger(out);
             processIntent(intent);
         }
 
@@ -173,26 +168,6 @@ public class MainActivity extends AppCompatActivity {
         M.logger(song.toString());
         tv.setText(song.toString());
 
-        /*
-        Uri uri = (Uri)intent.getParcelableExtra(Intent.EXTRA_STREAM);
-        M.logger(uri.toString());
-
-        processUri(uri);//results to Song static subclass
-
-        if (!Song.isMp3)
-            M.toaster(context, "Failed to load your file:\nOnly mp3 is supported");
-        else
-        {
-            this.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    analySeFileSafe();
-                }
-            });
-
-        }
-        */
-
     }
 
     private void quitProcess(String str) {
@@ -200,70 +175,6 @@ public class MainActivity extends AppCompatActivity {
         M.toaster(this, "Failed to load file:\n"+str);
     }
 
-
-    private void analySeFileSafe() {
-        try {
-            analyseFile(SongII.path);
-        } catch (FileNotFoundException e) {
-            M.logger(e.getLocalizedMessage());
-            e.printStackTrace();
-        } catch (IOException e) {
-            M.logger(e.getLocalizedMessage());
-            e.printStackTrace();
-        }
-    }
-
-    private void processUri(Uri uri) {
-        //results to song static class
-        if (uri != null) {
-            SongII.path = uri.getPath();
-            SongII.name = uri.getLastPathSegment(); //getting the saved name
-
-            String[] chunks = SongII.path.split("\\.");
-            if (chunks[chunks.length-1].equalsIgnoreCase("mp3"))
-                SongII.isMp3 = true;
-            else
-                SongII.isMp3 = false;
-
-        } else {
-            M.logger("Uri is null");
-        }
-
-    }
-
-
-    private void analyseFile(String path) throws FileNotFoundException, IOException {
-        File file = new File(SongII.path);
-        //File tempFile;
-        if (file.canRead() && file.exists() && file.isFile()) {
-            M.logger("The file is readable");
-            //tempFile = File.createTempFile("demkitoed", null, getApplicationContext().getCacheDir());
-
-            cmp = new CheapMP3();
-
-            //reading file
-            cmp.ReadFile(file);
-            SongII.bitrate = cmp.getAvgBitrateKbps();
-            SongII.size = cmp.getFileSizeBytes();
-            SongII.sample_rate = cmp.getSampleRate();
-            SongII.sample_per_frame = cmp.getSamplesPerFrame();
-            SongII.num_frames = cmp.getNumFrames();
-            SongII.frameVolumes = cmp.getFrameGains();
-
-            //solving file for cutting point
-            SongII.solveFile();
-
-            M.logger(SongII.userString());
-            tv.setText(SongII.userString());
-
-            button_remove.setVisibility(View.VISIBLE);
-
-        }
-
-        else
-            M.logger("The file is not readable");
-
-    }
 
 
 }
