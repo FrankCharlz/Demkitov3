@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.SurfaceView;
 import android.view.View;
@@ -20,27 +21,30 @@ import android.widget.TextView;
 import com.mj.cheapgoogle.CheapMP3;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView tv;
+    private TextView mainTextView;
     private CheapMP3 cmp;
     protected MediaPlayer mp;
     private SurfaceView surfaceView;
     private Context context;
     private Button button_remove, button_delete;
     private Typeface roboto;
-    private boolean gootToAnimate = true;
+    private boolean animation_started = false;
     private String name;
     private Song song;
+
+    //copy recycler view
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
+
         context = getApplicationContext();
 
         initViews();
@@ -51,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (intent.getAction().toString().contains("MAIN")) {
             //started from the menu...
-            //showInstructions();
+            showInstructions();
         } else {
             //started by sharing
             processIntent(intent);
@@ -59,11 +63,12 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
     private void initViews() {
         roboto = Typeface.createFromAsset(getAssets(), "roboto.ttf");
 
-        tv = (TextView) findViewById(R.id.tv);
-        tv.setTypeface(roboto);
+        mainTextView = (TextView) findViewById(R.id.tv);
+        mainTextView.setTypeface(roboto);
 
         button_remove = (Button) findViewById(R.id.button1);
         button_remove.setOnClickListener(new ButtonClicks());
@@ -77,8 +82,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
-        if (gootToAnimate) {
-            new BackgroundAnimation((ImageView)findViewById(R.id.imageView)).start();
+        if (!animation_started) {
+            //prevent starting animation twice.
+            new BackgroundAnimation((ImageView) findViewById(R.id.imageView)).start();
+            animation_started = true;
         }
         super.onWindowFocusChanged(hasFocus);
     }
@@ -89,50 +96,65 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showInstructions() {
-        setContentView(R.layout.activity_no_song);
-        gootToAnimate = true;
-        final TextView p = (TextView) findViewById(R.id.instructions);
-        p.setTypeface(roboto);
+        //setContentView(R.layout.activity_no_song);
+        mainTextView.setTypeface(roboto);
         String html = "To use this app: \n" +
                 "<br><br>Go to your <strong>audio player</strong> or <strong>file browser</strong>\n" +
                 "<br><br>Select the song you want to edit and press <strong>share</strong> \n" +
                 "<br><br>In the context menu select <strong>Demkito</strong>.";
-        p.setText(Html.fromHtml(html));
+        mainTextView.setText(Html.fromHtml(html));
     }
 
     class ButtonClicks implements OnClickListener{
         @Override
-        public void onClick(View v)
-        {
-            switch (v.getId()) {
-                case R.id.button1:
-                    demkitoSong();
-                    break;
-
-                case R.id.button2:
-                    deleteOriginalSong();
-                    break;
-
-                default:break;
+        public void onClick(View v) {
+            if (song == null) {
+                M.toaster(getApplicationContext(), "No song selected/shared.");
             }
+            else
+            {
 
+                switch (v.getId()) {
+                    case R.id.button1:
+                        demkitoSong();
+                        break;
+
+                    case R.id.button2:
+                        deleteOriginalSong();
+                        break;
+                    default:break;
+                }
+
+            }
         }
-
-
     }
 
     private void demkitoSong() {
         if (song.isValid()) {
-            File f = new File(M.DEMKITO_FOLDER+""+song.getName());
-            boolean success = song.removeAds(null);
-            //if(success)
+            File clean_file = new File(M.DEMKITO_FOLDER+""+song.getName());
+            boolean success = song.removeAds(clean_file);
+            if(success) {
+                M.toaster(this,"Ads removed succesfully");
+                song.setCleaned();
+            }
+            else { M.toaster(this, "Failed to remove ads.");}
         } else {
             M.toaster(this , "The song can not be cut");
         }
     }
 
     private void deleteOriginalSong() {
-
+        if (song.isCleaned()) {
+            boolean success = song.deleteOriginal();
+            //if u can destroy the object do that later
+            song.invalidate();
+            if (success)
+                M.toaster(this, "Original song is deleted.");
+            else
+                M.toaster(this, "Failed to delete original song.\nYou have to delete it manually");
+        } else {
+            M.toaster(this, "Selected song still has ads");
+        }
     }
 
     private String getFilePath(Intent intent) {
@@ -178,7 +200,7 @@ public class MainActivity extends AppCompatActivity {
 
         song = new Song(path);
         song.solve();
-        tv.setText(song.toString());
+        mainTextView.setText(song.toString());
 
     }
 

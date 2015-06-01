@@ -23,6 +23,7 @@ public class Song  extends CheapMP3 {
 
     private int min_volume;
     private boolean isSolved = false;
+    private  boolean isClean = false;
 
     public Song(String path) {
         this.songfile = new File(path);
@@ -31,14 +32,18 @@ public class Song  extends CheapMP3 {
     }
 
     private String getFileName(String path) {
-       int f = path.lastIndexOf("/");
-       return (f > 0) ? path.substring(f, path.length()) : "Failed to get file name";
+        int f = path.lastIndexOf("/");
+        return (f > 0) ? path.substring(f, path.length()) : "Failed to get file name";
 
     }
 
     public void solve() {
         if (!(songfile.canRead() && songfile.exists() && songfile.isFile())){
             M.logger("File is in accessible");
+            return;
+        }
+
+        if(!path.endsWith(".mp3") && !path.endsWith(".3ga")){
             return;
         }
 
@@ -92,23 +97,22 @@ public class Song  extends CheapMP3 {
         }
 
         String r = "\n"+
-                "name : "+name + "\n" +
-                "path : "+path + "\n" +
-                "size in kb : "+getFileSizeBytes()/1024 + "\n" +
-                "bitrate : "+getAvgBitrateKbps() + "\n" +
-                "sample rate : "+getSampleRate()+ "\n" +
-                "cutting point: "+the_cut_frame+ "\n"+
-                hashCode()+"\n"+
-                "---------------";
+                "Name: "+name + "\n" +
+                "Path: "+path + "\n" +
+                "Size: "+getFileSizeBytes()/1024 + "\n" +
+                "Bitrate: "+getAvgBitrateKbps() + "\n" +
+                "Sample rate: "+getSampleRate()+ "\n" +
+                "Dirty part: "+100*((float)the_cut_frame/getNumFrames())+ "%\n"+
+                "Code: "+hashCode();
         return  r;
     }
 
-    public ArrayList<String> getSongInfo() {
-        ArrayList<String> res = new ArrayList<String>();
-        res.add("Name: "+name);
-        res.add("Size: "+getFileSizeBytes() / (float)(1024 * 1024));
-        res.add("Path: "+path);
-        return res;
+    public String[] getSongInfo() {
+        return new String[] {
+                "Name: "+name,
+                "Size: "+(getFileSizeBytes() / (float)(1024 * 1024))+"MB",
+                "Path: "+path
+        };
     }
 
 
@@ -118,5 +122,21 @@ public class Song  extends CheapMP3 {
 
     public String getName() {
         return name;
+    }
+
+    public boolean deleteOriginal() {
+        return songfile.delete();
+    }
+
+    public void invalidate() {
+        this.isSolved = false;
+    }
+
+    public void setCleaned() {
+        this.isClean = true;
+    }
+
+    public boolean isCleaned() {
+        return isClean;
     }
 }

@@ -33,18 +33,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="24dp">
+            android:padding="24dp"
+            android:weightSum="1">
 
-            <TextView
-                android:id="@+id/tv"
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="24dp"
-                android:layout_marginTop="16dp"
-                android:textSize="20sp"
-                android:textColor="#ffffff"
-                android:background="@color/text_view_bg"
-            />
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="24dp"
+                    android:layout_marginTop="16dp"
+                    android:textSize="20sp"
+                    android:textColor="#ffffff"
+                    android:maxLines="12"
+                    android:background="@color/text_view_bg"
+                    />
+            </ScrollView>
 
             <Button
                 android:layout_width="match_parent"
