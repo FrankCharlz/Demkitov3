@@ -1,78 +1,104 @@
 package com.mj.demkito;
 
-public class Song {
+import com.mj.cheapgoogle.CheapMP3;
 
-	//for uri and file
-	static String path;
-	static String pathx;
-	static String name;
-	static String namex;
-	static boolean isMp3 = false;
-	static boolean hasAds = false;
+import java.io.File;
+import java.io.IOException;
 
-	//for demkitoling
-	static int bitrate, size, sample_rate, sample_per_frame, num_frames;
-	static int[] frameVolumes;
-	static int cut_0 = (int)(4000/26) ; 
-	static int cut_1 = (int)(10000/26) ; //range of five seconds
-	static int the_cut_frame = (int)(7000/26); //in case ur fucked just cut here...
-	static int min_volume, beforeCutPoint, afterCutPoint; //talkin abt volumes
+public class Song  extends CheapMP3 {
 
-	private Song() {
-		//private constructor disable instanciation
-	}
+    private String name;
+    private String path;
 
-	public static void solveFile() {
-		//getting the volumes of the chopped five seconds
-		//and taking the smallest volume as the cutting point...
-		M.logger("Number of frames inspected for volume : "+ (cut_1 - cut_0));
-		min_volume = frameVolumes[the_cut_frame]; //initialize to default volume of cut place
-		for (int x = cut_0; x < cut_1; x++) {
-			if (frameVolumes[x] < min_volume) {
-				min_volume = frameVolumes[x];
-				the_cut_frame = x;
-			}
-		}
-		M.logger("Min volume : "+min_volume+" The cut frame : "+the_cut_frame);
+    private final File songfile;
+    private int[] frame_volumes;
 
-		beforeCutPoint = M.avarageInArray(frameVolumes, the_cut_frame-3, the_cut_frame) - min_volume;
-		afterCutPoint = M.avarageInArray(frameVolumes, the_cut_frame+1, the_cut_frame+3) - min_volume;
+    //range of five seconds ndo ads zao zilipo
+    static int cut_0 = (int)(4000/26) ;
+    static int cut_1 = (int)(10000/26) ;
 
-		hasAds =  (beforeCutPoint > 50);
-			
-			
+    //in case ur fucked just cut here...
+    static int the_cut_frame = (int)(7000/26);
 
-	}
+    private int min_volume;
+    private boolean isSolved = false;
 
-	public static int[] getSongGraph(int bars) {
-		int number_of_frames = frameVolumes.length;
-		int leap = number_of_frames/bars;
-		int result[] = new int[bars];
+    public Song(String path) {
+        this.songfile = new File(path);
+        this.name = getFileName(path);
+        this.path = path;
+    }
 
-		number_of_frames -= number_of_frames%bars;
+    private String getFileName(String path) {
+       int f = path.lastIndexOf("/");
+       return (f > 0) ? path.substring(f, path.length()) : "Failed to get file name";
 
-		int i,k=0;
-		for (i=0; i<number_of_frames; i+=leap) {
-			result[k++] = frameVolumes[i];
-		}
+    }
 
-		return result;
+    public void solve() {
+        if (!(songfile.canRead() && songfile.exists() && songfile.isFile())){
+            M.logger("File is in accessible");
+            return;
+        }
 
-	}
+        try {
+            //cheapmp3 to read file..
+            super.ReadFile(songfile);
+
+            //array of frame volumes
+            frame_volumes = getFrameGains();
+
+            M.logger("Number of frames inspected for volume : "+ (cut_1 - cut_0));
+            //initialize to default volume of cut place
+
+            min_volume = frame_volumes[the_cut_frame];
+            for (int x = cut_0; x < cut_1; x++) {
+                if (frame_volumes[x] < min_volume) {
+                    min_volume = frame_volumes[x];
+                    the_cut_frame = x;
+                }
+            }
+
+            M.logger("Min volume : "+min_volume+" The cutting frame : "+the_cut_frame);
+            isSolved = true;
+        } catch (IOException e) {
+            M.logger("File is unreadable by Google :"+e.getLocalizedMessage());
+            e.printStackTrace();
+        }
+
+    }
 
 
-    public static String userString() {
+    public void removeAds(File cleanFile) {
+        try {
+            super.WriteFile(cleanFile, the_cut_frame, getNumFrames() - the_cut_frame);
+        } catch (IOException e) {
+            M.logger("Failed to write new file :" +e.getLocalizedMessage());
+            e.printStackTrace();
+        }
+
+    }
+
+
+
+    public String toString() {
+        if (!isSolved) {
+            return "File not read yet.";
+        }
+
         String r = "\n"+
                 "name : "+name + "\n" +
                 "path : "+path + "\n" +
-                "size in kb : "+size/1024 + "\n" +
-                "has Ads : "+hasAds+ "\n" +
-                "bitrate : "+bitrate + "\n" +
-                "sample rate : "+sample_rate + "\n" +
-                "cutting point: "+the_cut_frame + "\n"+
-                "vol before : "+beforeCutPoint + "\n"+
-                "vol after : "+afterCutPoint + "\n"+
+                "size in kb : "+getFileSizeBytes()/1024 + "\n" +
+                "bitrate : "+getAvgBitrateKbps() + "\n" +
+                "sample rate : "+getSampleRate()+ "\n" +
+                "cutting point: "+the_cut_frame+ "\n"+
+                hashCode()+"\n"+
                 "---------------";
         return  r;
     }
+
+
+
+
 }

@@ -13,6 +13,8 @@ public class BackgroundAnimation {
     private final Drawable drawable;
     private final float scaleFactor;
     private final Matrix matrix = new Matrix();
+    protected ValueAnimator mAnimator;
+
 
     public BackgroundAnimation(ImageView imageview) {
         this.imageview = imageview;
@@ -31,7 +33,7 @@ public class BackgroundAnimation {
         imageview.setImageMatrix(matrix);
 
         //animate throught out the width of the image view --wrap--content...
-        ValueAnimator mAnimator = ValueAnimator.ofFloat(0, imageview.getWidth());
+       mAnimator = ValueAnimator.ofFloat(0, imageview.getWidth());
 
         //mAnimator.setInterpolator(new LinearInterpolator());
         MjAnimatorListener mAnimationListener = new MjAnimatorListener();
@@ -82,5 +84,9 @@ public class BackgroundAnimation {
         }
     }
 
+    public interface AnimationControl {
+        abstract void pauseAnimation(ValueAnimator valueAnimator);
+        //abstract void stopAnimation(ValueAnimator valueAnimator);
+    }
 
 }
