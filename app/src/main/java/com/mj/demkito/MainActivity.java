@@ -49,8 +49,8 @@ public class MainActivity extends AppCompatActivity {
         context = getApplicationContext();
 
         initViews();
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
+        setSupportActionBar(toolbar);
 
         M.checkAndCreateFolders();
 
