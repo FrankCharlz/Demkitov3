@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.SurfaceView;
 import android.view.View;
@@ -48,6 +49,9 @@ public class MainActivity extends AppCompatActivity {
         context = getApplicationContext();
 
         initViews();
+        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
+
         M.checkAndCreateFolders();
 
         final Intent intent = getIntent();
@@ -99,8 +103,8 @@ public class MainActivity extends AppCompatActivity {
         //setContentView(R.layout.activity_no_song);
         mainTextView.setTypeface(roboto);
         String html = "To use this app: \n" +
-                "<br><br>Go to your <strong>audio player</strong> or <strong>file browser</strong>\n" +
-                "<br><br>Select the song you want to edit and press <strong>share</strong> \n" +
+                "<br><br>Go to your <strong>audio player</strong> or <strong>file browser</strong>" +
+                "<br><br>Select the song you want to edit and press <strong>share</strong>" +
                 "<br><br>In the context menu select <strong>Demkito</strong>.";
         mainTextView.setText(Html.fromHtml(html));
     }
@@ -195,8 +199,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void processIntent(final Intent intent) {
         String path = getFilePath(intent);
-        if (path == null) {quitProcess("");}
-        if (!path.endsWith(".mp3")) {quitProcess("Format not mp3");}
+        if (path == null) {quitProcess(""); return;}
+        if (!path.endsWith(".mp3")) {quitProcess("Format not mp3"); return;}
 
         song = new Song(path);
         song.solve();
@@ -207,6 +211,7 @@ public class MainActivity extends AppCompatActivity {
     private void quitProcess(String str) {
         M.logger("Quited processing file..");
         M.toaster(this, "Failed to load file:\n"+str);
+        mainTextView.setText("Failed to load file:\n"+str);
     }
 
 
