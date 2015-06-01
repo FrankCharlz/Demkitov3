@@ -4,6 +4,7 @@ import com.mj.cheapgoogle.CheapMP3;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Song  extends CheapMP3 {
 
@@ -69,15 +70,19 @@ public class Song  extends CheapMP3 {
     }
 
 
-    public void removeAds(File cleanFile) {
+    public boolean removeAds(File cleanFile) {
         try {
             super.WriteFile(cleanFile, the_cut_frame, getNumFrames() - the_cut_frame);
+            return true;
         } catch (IOException e) {
             M.logger("Failed to write new file :" +e.getLocalizedMessage());
             e.printStackTrace();
         }
 
+        return false;
+
     }
+
 
 
 
@@ -98,7 +103,20 @@ public class Song  extends CheapMP3 {
         return  r;
     }
 
+    public ArrayList<String> getSongInfo() {
+        ArrayList<String> res = new ArrayList<String>();
+        res.add("Name: "+name);
+        res.add("Size: "+getFileSizeBytes() / (float)(1024 * 1024));
+        res.add("Path: "+path);
+        return res;
+    }
 
 
+    public boolean isValid() {
+        return isSolved;
+    }
 
+    public String getName() {
+        return name;
+    }
 }

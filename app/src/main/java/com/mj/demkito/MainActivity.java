@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private Typeface roboto;
     private boolean gootToAnimate = true;
     private String name;
+    private Song song;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
         {
             switch (v.getId()) {
                 case R.id.button1:
-                    //demkitoSong();
+                    demkitoSong();
                     break;
 
                 case R.id.button2:
@@ -115,6 +116,18 @@ public class MainActivity extends AppCompatActivity {
                 default:break;
             }
 
+        }
+
+
+    }
+
+    private void demkitoSong() {
+        if (song.isValid()) {
+            File f = new File(M.DEMKITO_FOLDER+""+song.getName());
+            boolean success = song.removeAds(null);
+            //if(success)
+        } else {
+            M.toaster(this , "The song can not be cut");
         }
     }
 
@@ -163,9 +176,8 @@ public class MainActivity extends AppCompatActivity {
         if (path == null) {quitProcess("");}
         if (!path.endsWith(".mp3")) {quitProcess("Format not mp3");}
 
-        Song song = new Song(path);
+        song = new Song(path);
         song.solve();
-        M.logger(song.toString());
         tv.setText(song.toString());
 
     }
