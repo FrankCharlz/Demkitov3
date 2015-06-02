@@ -21,9 +21,6 @@
         <item name="colorPrimary">@color/material_drawer_primary</item>
         <item name="colorPrimaryDark">@color/material_drawer_primary_dark</item>
         <item name="colorAccent">@color/material_drawer_accent</item>
-
-
-
     </style>
 
     <style name="ButtonStyle" parent="Base.Widget.AppCompat.Button">
@@ -34,14 +31,5 @@
         <item name="android:layout_marginTop">@dimen/button_margin_top</item>
         <item name="android:textSize">@dimen/button_text_size</item>
     </style>
-
-    
-    <!--circle button styles -->
-    <declare-styleable name="CircleButton">
-        <attr name="cb_rangi" format="color" />
-        <attr name="cb_uneneWaKivuli" format="dimension" />
-    </declare-styleable>
-    
-
 
 </resources>
