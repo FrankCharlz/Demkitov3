@@ -2,6 +2,7 @@ package com.mj.demkito;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.graphics.Typeface;
 import android.media.MediaPlayer;
@@ -10,7 +11,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.SurfaceView;
 import android.view.View;
@@ -26,33 +26,31 @@ import java.io.File;
 public class MainActivity extends AppCompatActivity {
 
     private TextView mainTextView;
-    private CheapMP3 cmp;
-    protected MediaPlayer mp;
-    private SurfaceView surfaceView;
     private Context context;
     private Button button_remove, button_delete;
     private Typeface roboto;
     private boolean animation_started = false;
-    private String name;
     private Song song;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
+        if (getResources().getBoolean(R.bool.landscape_only)) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        }
+
+        setContentView(R.layout.activity_main);
         context = getApplicationContext();
         M.checkAndCreateFolders();
 
         initViews();
-
         ActionBar bar = getSupportActionBar();
-        bar.setSubtitle("Mama");
 
 
         final Intent intent = getIntent();
-        if (intent.getAction().toString().contains("MAIN")) {
+        if (intent.getAction().contains("MAIN")) {
             //started from the menu...
             showInstructions();
         } else {
@@ -163,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private String getFilePathStreamWay(Intent intent) {
-        Uri uri = (Uri)intent.getParcelableExtra(Intent.EXTRA_STREAM);
+        Uri uri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
         if (uri == null) return  null;
 
         M.logger("STREAM WAY: "+uri.toString());
