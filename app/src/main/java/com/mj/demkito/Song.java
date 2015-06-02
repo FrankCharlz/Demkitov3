@@ -101,8 +101,6 @@ public class Song  extends CheapMP3 {
     }
 
 
-
-
     public String toString() {
         if (!isSolved) {
             return "File not read yet.";
@@ -111,7 +109,7 @@ public class Song  extends CheapMP3 {
         String r = "\n"+
                 "Name: "+name + "\n" +
                 "Path: "+path + "\n" +
-                "Size: "+getFileSizeBytes()/1024 + "\n" +
+                "Size: "+getFileSizeBytes()/((float)1024*1024) + "Mb\n" +
                 "Bitrate: "+getAvgBitrateKbps() + "\n" +
                 "Sample rate: "+getSampleRate()+ "\n" +
                 "Dirty part: "+100*((float)the_cut_frame/getNumFrames())+ "%\n"+

@@ -61,6 +61,7 @@
                 android:id="@+id/button1"
                 android:background="@color/button_blue"
                 android:text="REMOVE ADS"
+                android:textSize="30sp"
                 android:layout_alignTop="@id/scrollView"
                 android:layout_toRightOf="@+id/scrollView"/>
 
@@ -69,6 +70,7 @@
                 android:id="@+id/button2"
                 android:background="@color/button_red"
                 android:text="DELETE ORIGINAL"
+                android:textSize="30sp"
                 android:layout_below="@id/button1"
                 android:layout_toRightOf="@+id/scrollView"
                />
