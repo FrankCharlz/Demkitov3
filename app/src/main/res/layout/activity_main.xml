@@ -74,7 +74,7 @@
 
             <View
                 android:layout_width="1dp"
-                android:layout_height="12dp"
+                android:layout_height="1dp"
                 android:id="@+id/icon_separator"
                 android:layout_below="@id/button2"
                 android:layout_centerHorizontal="true"/>
@@ -82,8 +82,9 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_launcher"
-                android:layout_margin="6dp"
+                android:src="@drawable/github"
+                android:background="@drawable/social_buttons_bg"
+                android:layout_margin="8dp"
                 android:layout_below="@id/button2"
                 android:layout_toLeftOf="@id/icon_separator"
                 android:id="@+id/github_icon"
@@ -92,8 +93,9 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_launcher"
-                android:layout_margin="6dp"
+                android:src="@drawable/twitter"
+                android:background="@drawable/social_buttons_bg"
+                android:layout_margin="8dp"
                 android:layout_below="@id/button2"
                 android:layout_toRightOf="@id/icon_separator"
                 />

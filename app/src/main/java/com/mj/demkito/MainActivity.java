@@ -39,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
 
         if (getResources().getBoolean(R.bool.landscape_only)) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        } else {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
 
         setContentView(R.layout.activity_main);
@@ -195,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
         if (path == null) {quitProcess(""); return;}
         if (!path.endsWith(".mp3")) {quitProcess("Format not mp3"); return;}
 
-        song = new Song(path);
+        song = new Song(this, path);
         song.solve();
         mainTextView.setText(song.toString());
 
