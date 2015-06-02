@@ -31,15 +31,17 @@
             android:scaleType="matrix"
             android:adjustViewBounds="true"/>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:gravity="center_horizontal"
             android:padding="24dp">
 
             <ScrollView
+                android:id="@+id/scrollView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true">
                 <TextView
                     android:id="@+id/tv"
                     android:layout_width="match_parent"
@@ -57,17 +59,47 @@
                 style="@style/ButtonStyle"
                 android:id="@+id/button1"
                 android:background="@color/button_blue"
-                android:text="REMOVE ADS" />
+                android:text="REMOVE ADS"
+                android:layout_below="@id/scrollView"
+                 />
 
 
             <Button
                 style="@style/ButtonStyle"
                 android:id="@+id/button2"
                 android:background="@color/button_red"
-                android:text="DELETE ORIGINAL"/>
+                android:text="DELETE ORIGINAL"
+                android:layout_below="@id/button1"/>
 
 
-        </LinearLayout>
+            <View
+                android:layout_width="1dp"
+                android:layout_height="12dp"
+                android:id="@+id/icon_separator"
+                android:layout_below="@id/button2"
+                android:layout_centerHorizontal="true"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_launcher"
+                android:layout_margin="6dp"
+                android:layout_below="@id/button2"
+                android:layout_toLeftOf="@id/icon_separator"
+                android:id="@+id/github_icon"
+                />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_launcher"
+                android:layout_margin="6dp"
+                android:layout_below="@id/button2"
+                android:layout_toRightOf="@id/icon_separator"
+                />
+
+
+        </RelativeLayout>
 
 
     </FrameLayout>
