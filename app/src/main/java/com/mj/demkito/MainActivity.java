@@ -8,8 +8,8 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.SurfaceView;
@@ -47,8 +47,8 @@ public class MainActivity extends AppCompatActivity {
 
         initViews();
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
-        setSupportActionBar(toolbar);
+        ActionBar bar = getSupportActionBar();
+        bar.setSubtitle("Mama");
 
 
         final Intent intent = getIntent();

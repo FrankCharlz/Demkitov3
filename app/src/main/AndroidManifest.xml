@@ -13,9 +13,8 @@ s
         android:label="@string/app_name" >
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@style/Dopex" >
+            android:theme="@style/Dope" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
