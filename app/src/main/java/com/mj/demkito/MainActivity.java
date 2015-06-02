@@ -36,10 +36,6 @@ public class MainActivity extends AppCompatActivity {
     private String name;
     private Song song;
 
-    //copy recycler view
-    private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,16 +43,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         context = getApplicationContext();
+        M.checkAndCreateFolders();
 
         initViews();
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
 
-        M.checkAndCreateFolders();
 
         final Intent intent = getIntent();
-        M.logger("Action : " + intent.getAction());
-
         if (intent.getAction().toString().contains("MAIN")) {
             //started from the menu...
             showInstructions();

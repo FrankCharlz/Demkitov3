@@ -2,7 +2,7 @@
 <resources>
 
 
-    <style name="Dope" parent="MaterialDrawerTheme.Light.DarkToolbar.ActionBar.TranslucentStatus">
+    <style name="Dopex" parent="MaterialDrawerTheme.Light.DarkToolbar.TranslucentStatus">
         <item name="colorPrimary">@color/material_drawer_primary</item>
         <item name="colorPrimaryDark">@color/material_drawer_primary_dark</item>
         <item name="colorAccent">@color/material_drawer_accent</item>
@@ -10,5 +10,6 @@
         <item name="android:windowTranslucentNavigation">true</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowTranslucentStatus">true</item>
+
     </style>
 </resources>
