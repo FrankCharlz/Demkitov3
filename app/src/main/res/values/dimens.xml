@@ -4,8 +4,8 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="cb_margin">8dp</dimen>
-    <dimen name="cb_radius">100dp</dimen>
-    <dimen name="cb_shadow">8dp</dimen>
+    <dimen name="cb_radius">64dp</dimen>
+    <dimen name="cb_shadow">18dp</dimen>
     <dimen name="button_text_size">15sp</dimen>
 
 

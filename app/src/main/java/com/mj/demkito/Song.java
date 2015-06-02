@@ -3,6 +3,8 @@ package com.mj.demkito;
 import android.content.Context;
 
 import com.mj.cheapgoogle.CheapMP3;
+import com.mj.utils.M;
+import com.mj.utils.MySharedPrefs;
 
 import java.io.File;
 import java.io.IOException;
@@ -39,7 +41,7 @@ public class Song  extends CheapMP3 {
 
     private String getFileName(String path) {
         int f = path.lastIndexOf("/");
-        return (f > 0) ? path.substring(f, path.length()) : "Failed to get file name";
+        return (f > 0) ? path.substring(f++, path.length()) : "Failed to get file name";
 
     }
 

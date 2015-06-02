@@ -5,21 +5,22 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.graphics.Typeface;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
-import android.view.SurfaceView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.mj.cheapgoogle.CheapMP3;
+import com.mj.utils.M;
 
 import java.io.File;
 
@@ -62,6 +63,28 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        openSocialPage(item.getItemId());
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void openSocialPage(int itemId) {
+        Uri uri = (itemId == R.id.github) ?
+                Uri.parse("https://github.com/FrankCharlz/Demkito") :
+                Uri.parse("https://twitter.com/mjcharlz") ;
+
+        Intent i = new Intent(Intent.ACTION_VIEW, uri);
+        startActivity(i);
+    }
 
     private void initViews() {
         roboto = Typeface.createFromAsset(getAssets(), "roboto.ttf");
@@ -189,8 +212,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
-
 
     private void processIntent(final Intent intent) {
         String path = getFilePath(intent);

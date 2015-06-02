@@ -1,4 +1,4 @@
-package com.mj.demkito;
+package com.mj.utils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -19,7 +19,7 @@ import android.widget.Toast;
 
 public class M {
 	final static String SD_CARD = Environment.getExternalStorageDirectory().getAbsolutePath();
-	final static String DEMKITO_FOLDER = SD_CARD+"/Demkito/";
+	public final static String DEMKITO_FOLDER = SD_CARD+"/Demkito/";
 	public static int STUPID_HACK_ID = 0;
 	public static int ANDROID_VERSION = Build.VERSION.SDK_INT;
 	

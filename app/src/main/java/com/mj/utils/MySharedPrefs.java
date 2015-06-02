@@ -1,4 +1,4 @@
-package com.mj.demkito;
+package com.mj.utils;
 
 import android.content.Context;
 
