@@ -79,25 +79,28 @@
                 android:layout_below="@id/button2"
                 android:layout_centerHorizontal="true"/>
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <com.mj.utils.CircleButton
+                android:layout_height="@dimen/cb_radius"
+                android:layout_width="@dimen/cb_radius"
+                android:layout_marginTop="@dimen/cb_margin"
                 android:src="@drawable/github"
-                android:background="@drawable/social_buttons_bg"
-                android:layout_margin="8dp"
+                app:cb_rangi="@color/text_view_bg"
+                app:cb_uneneWaKivuli="@dimen/cb_shadow"
                 android:layout_below="@id/button2"
                 android:layout_toLeftOf="@id/icon_separator"
                 android:id="@+id/github_icon"
                 />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <com.mj.utils.CircleButton
+                android:id="@+id/twiter_icon"
+                android:layout_height="@dimen/cb_radius"
+                android:layout_width="@dimen/cb_radius"
+                android:layout_marginTop="@dimen/cb_margin"
                 android:src="@drawable/twitter"
-                android:background="@drawable/social_buttons_bg"
-                android:layout_margin="8dp"
                 android:layout_below="@id/button2"
                 android:layout_toRightOf="@id/icon_separator"
+                app:cb_rangi="@color/cb_background"
+                app:cb_uneneWaKivuli="@dimen/cb_shadow"
                 />
 
 

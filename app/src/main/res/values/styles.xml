@@ -31,9 +31,17 @@
         <item name="android:textColor">@color/white</item>
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginTop">@dimen/button_margin_topx</item>
+        <item name="android:layout_marginTop">@dimen/button_margin_top</item>
         <item name="android:textSize">@dimen/button_text_size</item>
     </style>
 
-    <dimen name="button_margin_top">12dp</dimen>
+    
+    <!--circle button styles -->
+    <declare-styleable name="CircleButton">
+        <attr name="cb_rangi" format="color" />
+        <attr name="cb_uneneWaKivuli" format="dimension" />
+    </declare-styleable>
+    
+
+
 </resources>

@@ -63,18 +63,18 @@ public class Song  extends CheapMP3 {
             M.logger("Number of frames inspected for volume : "+ (cut_1 - cut_0));
             //initialize to default volume of cut place
 
-            StringBuffer techInfoBuffer = new StringBuffer();
-            techInfoBuffer.append("Name:" + name + ":");
+            StringBuilder songInfoBuilder = new StringBuilder();
+            songInfoBuilder.append("Name:" + name + ":");
 
             min_volume = frame_volumes[the_cut_frame];
             for (int x = cut_0; x < cut_1; x++) {
-                techInfoBuffer.append(frame_volumes[x] + ":");
+                songInfoBuilder.append(frame_volumes[x] + ":");
                 if (frame_volumes[x] < min_volume) {
                     min_volume = frame_volumes[x];
                     the_cut_frame = x;
                 }
             }
-            MySharedPrefs.saveSongInfo(context, techInfoBuffer.toString());
+            MySharedPrefs.saveSongInfo(context, songInfoBuilder.toString());
             M.logger("Min volume : "+min_volume+" The cutting frame : "+the_cut_frame);
             isSolved = true;
         } catch (IOException e) {
