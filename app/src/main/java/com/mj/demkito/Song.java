@@ -41,7 +41,7 @@ public class Song  extends CheapMP3 {
 
     private String getFileName(String path) {
         int f = path.lastIndexOf("/");
-        return (f > 0) ? path.substring(f++, path.length()) : "Failed to get file name";
+        return (f > 0) ? path.substring( ++f, path.length()) : "Failed to get file name";
 
     }
 
