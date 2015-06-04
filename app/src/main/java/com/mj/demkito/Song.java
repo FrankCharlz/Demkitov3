@@ -51,7 +51,7 @@ public class Song  extends CheapMP3 {
             return;
         }
 
-        if(!path.endsWith(".mp3") && !path.endsWith(".3ga")){
+        if(!path.endsWith(".mp3") && !path.endsWith(".mp4") && !path.endsWith(".3ga")){
             return;
         }
 
@@ -76,7 +76,9 @@ public class Song  extends CheapMP3 {
                     the_cut_frame = x;
                 }
             }
+
             MySharedPrefs.saveSongInfo(context, songInfoBuilder.toString());
+
             M.logger("Min volume : "+min_volume+" The cutting frame : "+the_cut_frame);
             isSolved = true;
         } catch (IOException e) {

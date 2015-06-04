@@ -6,6 +6,7 @@ import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBar;
@@ -129,23 +130,30 @@ public class MainActivity extends AppCompatActivity {
 
     class ButtonClicks implements OnClickListener{
         @Override
-        public void onClick(View v) {
+        public void onClick(final View v) {
             if (song == null) {
                 M.toaster(getApplicationContext(), "No song selected/shared.");
             }
             else
             {
+                //inline async task baby....
+                new AsyncTask<Void, Void, Void>() {
 
-                switch (v.getId()) {
-                    case R.id.button1:
-                        demkitoSong();
-                        break;
+                    @Override
+                    protected Void doInBackground(Void... params) {
+                        switch (v.getId()) {
+                            case R.id.button1:
+                                demkitoSong();
+                                break;
 
-                    case R.id.button2:
-                        deleteOriginalSong();
-                        break;
-                    default:break;
-                }
+                            case R.id.button2:
+                                deleteOriginalSong();
+                                break;
+                            default:break;
+                        }
+                        return null;
+                    }
+                };
 
             }
         }
