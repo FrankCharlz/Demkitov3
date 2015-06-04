@@ -51,10 +51,6 @@ public class Song  extends CheapMP3 {
             return;
         }
 
-        if (!path.endsWith(".mp3") && !path.endsWith(".mp4") && !path.endsWith(".3ga")) {
-            return;
-        }
-
         try {
             //cheapmp3 to read file..
             super.ReadFile(songfile);
@@ -107,7 +103,7 @@ public class Song  extends CheapMP3 {
             return "File not read yet.";
         }
 
-        String r = "\n"+
+        String r = ""+
                 "Name: "+name + "\n" +
                 "Path: "+path + "\n" +
                 "Size: "+getFileSizeBytes()/((float)1024*1024) + "Mb\n" +

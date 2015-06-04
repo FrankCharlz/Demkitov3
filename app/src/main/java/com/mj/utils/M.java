@@ -9,6 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -33,7 +35,16 @@ public class M {
 
     }
 
-    private void copyFile(File fi, File fo) {
+
+    public static void kopiInputToOutPutStreams(BufferedInputStream bis, BufferedOutputStream fos) throws IOException {
+        byte bafa[] = new byte[1024];
+        int line;
+        while ( (line= bis.read(bafa)) > 0) {
+            fos.write(bafa, 0, 1024);
+
+        }
+    }
+    public static  void copyFile(File fi, File fo) {
         FileInputStream fis = null;
         FileOutputStream fos = null;
 

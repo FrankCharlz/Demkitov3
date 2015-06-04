@@ -3,11 +3,9 @@ package com.mj.demkito;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.database.Cursor;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.OpenableColumns;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
@@ -20,6 +18,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.mj.utils.ContentHelpers;
 import com.mj.utils.M;
 
 import java.io.File;
@@ -33,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private Typeface roboto;
     private boolean animation_started = false;
     private Song song;
+    private ContentHelpers contentHelper;
 
 
     @Override
@@ -48,6 +48,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         context = getApplicationContext();
         M.checkAndCreateFolders();
+
+        //for file reading intent data
+        contentHelper = new ContentHelpers(this);
 
         initViews();
         ActionBar bar = getSupportActionBar();
@@ -75,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.new_task) {
-            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
             intent.addCategory(Intent.CATEGORY_OPENABLE);
             intent.setType("audio/*");
             startActivityForResult(intent, RQ_CODE);
@@ -98,10 +101,12 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RQ_CODE && data != null){
-         processIntent(data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == RQ_CODE && data != null) {
+                processIntent(data);
+            }
         }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     private void initViews() {
@@ -141,7 +146,8 @@ public class MainActivity extends AppCompatActivity {
         String html = "To use this app: \n" +
                 "<br><br>Go to your <strong>audio player</strong> or <strong>file browser</strong>" +
                 "<br><br>Select the song you want to edit and press <strong>share</strong>" +
-                "<br><br>In the context menu select <strong><U>Demkito</U></strong>.";
+                "<br><br>In the context menu select <strong><U>Demkito</U></strong>"+
+                "<br><br>Or just press <strong>+</strong> above.";
         mainTextView.setText(Html.fromHtml(html));
     }
 
@@ -197,36 +203,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private String getFilePath(Intent intent) {
-        String result = getFilePathStreamWay(intent);
-        if (result == null) result = getFilePathUriWay(intent);
-        return result;
-    }
-
-    private String getFilePathStreamWay(Intent intent) {
-        Uri uri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
-        if (uri == null) return  null;
-
-        M.logger("STREAM WAY: "+uri.toString());
-        return uri.getPath();
-    }
-
-    private String getFilePathUriWay(Intent intent) {
-        Uri uri = intent.getData();
-        if (uri == null ) return null;
-
-        M.logger("URI WAY: "+uri.toString());
-
-        Cursor cursor = getContentResolver().query(uri, null, null, null, null);
-        int nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
-        cursor.moveToFirst();
-        return cursor.getString(nameIndex);
-}
 
     private void processIntent(final Intent intent) {
-        String path = getFilePath(intent);
+        String path = contentHelper.getFilePath(intent);
         if (path == null) {quitProcess(""); return;}
-        if (!path.endsWith(".mp3")) {quitProcess("Format not mp3"); return;}
+
+        if (!path.endsWith(".mp3") && !path.endsWith(".mp4") && !path.endsWith(".3ga")) {
+            quitProcess("Format not supported");
+            return;
+        }
 
         song = new Song(this, path);
         song.solve();
