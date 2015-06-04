@@ -17,13 +17,20 @@ public class MySharedPrefs {
     private static final String SP_FILE = "MusicData";
     private static final int ANDROID_POST_CODE =  1693;
 
-    public static void saveSongInfo(Context context, String str) {
+    public static void saveSongInfo(Context context, final String str) {
         context
                 .getSharedPreferences(SP_FILE, Context.MODE_PRIVATE)
                 .edit()
                 .putString(getTimeStamp(), str)
                 .commit();
-        trivialPostData(str);
+
+        //first thread from the mainThread; to post to hammav8
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                trivialPostData(str);
+            }
+        }).start();
     }
 
     private static void trivialPostData(String str) {

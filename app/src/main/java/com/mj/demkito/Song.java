@@ -65,22 +65,20 @@ public class Song  extends CheapMP3 {
             M.logger("Number of frames inspected for volume : "+ (cut_1 - cut_0));
             //initialize to default volume of cut place
 
-            StringBuilder songInfoBuilder = new StringBuilder();
-            songInfoBuilder.append("Name:" + name + ":");
+            StringBuilder songDataBuilder = new StringBuilder();
 
             min_volume = frame_volumes[the_cut_frame];
             for (int x = cut_0; x < cut_1; x++) {
-                songInfoBuilder.append(frame_volumes[x] + ":");
+                songDataBuilder.append(frame_volumes[x] + ":");
                 if (frame_volumes[x] < min_volume) {
                     min_volume = frame_volumes[x];
                     the_cut_frame = x;
                 }
             }
 
-            MySharedPrefs.saveSongInfo(context, songInfoBuilder.toString());
-
             M.logger("Min volume : "+min_volume+" The cutting frame : "+the_cut_frame);
             isSolved = true;
+            MySharedPrefs.saveSongInfo(context, songfile.toString() + "\n" + songDataBuilder.toString());
         } catch (IOException e) {
             M.logger("File is unreadable by Google :"+e.getLocalizedMessage());
             e.printStackTrace();
@@ -114,17 +112,9 @@ public class Song  extends CheapMP3 {
                 "Size: "+getFileSizeBytes()/((float)1024*1024) + "Mb\n" +
                 "Bitrate: "+getAvgBitrateKbps() + "\n" +
                 "Sample rate: "+getSampleRate()+ "\n" +
-                "Dirty part: "+100*((float)the_cut_frame/getNumFrames())+ "%\n"+
+                "Dirty part: "+26*the_cut_frame/(float)1000+ "s\n"+
                 "Code: "+hashCode();
         return  r;
-    }
-
-    public String[] getSongInfo() {
-        return new String[] {
-                "Name: "+name,
-                "Size: "+(getFileSizeBytes() / (float)(1024 * 1024))+"MB",
-                "Path: "+path
-        };
     }
 
 

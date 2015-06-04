@@ -6,7 +6,6 @@ import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.graphics.Typeface;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBar;
@@ -220,24 +219,8 @@ public class MainActivity extends AppCompatActivity {
         if (!path.endsWith(".mp3")) {quitProcess("Format not mp3"); return;}
 
         song = new Song(this, path);
-        //inline async task baby....
-        new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected Void doInBackground(Void... params){
-                song.solve();
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                mainTextView.setText(song.toString());
-                super.onPostExecute(aVoid);
-            }
-        }.execute();
-
-
-
-
+        song.solve();
+        mainTextView.setText(song.toString());
     }
 
     private void quitProcess(String str) {
