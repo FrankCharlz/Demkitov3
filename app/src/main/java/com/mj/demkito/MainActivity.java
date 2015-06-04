@@ -1,6 +1,5 @@
 package com.mj.demkito;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
@@ -27,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int RQ_CODE = 13;
     private TextView mainTextView;
-    private Context context;
     private Button button_remove, button_delete;
     private Typeface roboto;
     private boolean animation_started = false;
@@ -46,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         setContentView(R.layout.activity_main);
-        context = getApplicationContext();
         M.checkAndCreateFolders();
 
         //for file reading intent data
@@ -54,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
         initViews();
         ActionBar bar = getSupportActionBar();
+        bar.setTitle("Demkito");
 
 
         final Intent intent = getIntent();
