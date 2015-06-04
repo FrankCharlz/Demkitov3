@@ -1,6 +1,7 @@
 package com.mj.utils;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -16,8 +17,9 @@ public class MySharedPrefs {
 
     private static final String SP_FILE = "MusicData";
     private static final int ANDROID_POST_CODE =  1693;
+    private static final String DEVICE_ID_TAG = "kIoPPi";
 
-    public static void saveSongInfo(Context context, final String str) {
+    public static void saveSongInfo(final Context context, final String str) {
         context
                 .getSharedPreferences(SP_FILE, Context.MODE_PRIVATE)
                 .edit()
@@ -28,9 +30,20 @@ public class MySharedPrefs {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                trivialPostData(str);
+                trivialPostData("From:"+getDeviceId(context)+"\n"+str);
             }
         }).start();
+    }
+
+    public static String getDeviceId(Context context) {
+
+        SharedPreferences sp = context.getSharedPreferences(SP_FILE, 0);
+
+        if (!sp.contains(DEVICE_ID_TAG))
+            sp.edit().putString(DEVICE_ID_TAG, M.DEVICE_ID).commit();
+
+        return sp.getString(DEVICE_ID_TAG, "missing-device-id");
+
     }
 
     private static void trivialPostData(String str) {

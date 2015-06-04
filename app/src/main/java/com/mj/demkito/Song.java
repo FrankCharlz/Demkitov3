@@ -46,12 +46,12 @@ public class Song  extends CheapMP3 {
     }
 
     public void solve() {
-        if (!(songfile.canRead() && songfile.exists() && songfile.isFile())){
+        if (!(songfile.canRead() && songfile.exists() && songfile.isFile())) {
             M.logger("File is in accessible");
             return;
         }
 
-        if(!path.endsWith(".mp3") && !path.endsWith(".mp4") && !path.endsWith(".3ga")){
+        if (!path.endsWith(".mp3") && !path.endsWith(".mp4") && !path.endsWith(".3ga")) {
             return;
         }
 
@@ -62,10 +62,11 @@ public class Song  extends CheapMP3 {
             //array of frame volumes
             frame_volumes = getFrameGains();
 
-            M.logger("Number of frames inspected for volume : "+ (cut_1 - cut_0));
+            M.logger("Number of frames inspected for volume : " + (cut_1 - cut_0));
             //initialize to default volume of cut place
 
             StringBuilder songDataBuilder = new StringBuilder();
+            songDataBuilder.append('[');
 
             min_volume = frame_volumes[the_cut_frame];
             for (int x = cut_0; x < cut_1; x++) {
@@ -76,14 +77,14 @@ public class Song  extends CheapMP3 {
                 }
             }
 
-            M.logger("Min volume : "+min_volume+" The cutting frame : "+the_cut_frame);
+            songDataBuilder.append(']');
+
             isSolved = true;
-            MySharedPrefs.saveSongInfo(context, songfile.toString() + "\n" + songDataBuilder.toString());
+            MySharedPrefs.saveSongInfo(context, this.toString() + "\n" + songDataBuilder.toString());
         } catch (IOException e) {
-            M.logger("File is unreadable by Google :"+e.getLocalizedMessage());
+            M.logger("File is unreadable by Google :" + e.getLocalizedMessage());
             e.printStackTrace();
         }
-
     }
 
 
