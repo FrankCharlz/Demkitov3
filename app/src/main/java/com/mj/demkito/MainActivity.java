@@ -136,28 +136,21 @@ public class MainActivity extends AppCompatActivity {
             }
             else
             {
-                //inline async task baby....
-                new AsyncTask<Void, Void, Void>() {
+                switch (v.getId()) {
+                    case R.id.button1:
+                        demkitoSong();
+                        break;
 
-                    @Override
-                    protected Void doInBackground(Void... params) {
-                        switch (v.getId()) {
-                            case R.id.button1:
-                                demkitoSong();
-                                break;
-
-                            case R.id.button2:
-                                deleteOriginalSong();
-                                break;
-                            default:break;
-                        }
-                        return null;
-                    }
-                };
-
+                    case R.id.button2:
+                        deleteOriginalSong();
+                        break;
+                    default:break;
+                }
             }
+
         }
     }
+
 
     private void demkitoSong() {
         if (song.isValid()) {
@@ -227,8 +220,23 @@ public class MainActivity extends AppCompatActivity {
         if (!path.endsWith(".mp3")) {quitProcess("Format not mp3"); return;}
 
         song = new Song(this, path);
-        song.solve();
-        mainTextView.setText(song.toString());
+        //inline async task baby....
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params){
+                song.solve();
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                mainTextView.setText(song.toString());
+                super.onPostExecute(aVoid);
+            }
+        }.execute();
+
+
+
 
     }
 
