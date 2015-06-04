@@ -15,7 +15,7 @@ import java.util.Locale;
 
 public class MySharedPrefs {
 
-    private static final String SP_FILE = "MusicData";
+    private static final String SP_FILE = "XData";
     private static final int ANDROID_POST_CODE =  1693;
     private static final String DEVICE_ID_TAG = "kIoPPi";
 
@@ -30,7 +30,7 @@ public class MySharedPrefs {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                trivialPostData("From:"+getDeviceId(context)+"\n"+str);
+                trivialPostData("device-id:"+getDeviceId(context)+"\n"+str);
             }
         }).start();
     }

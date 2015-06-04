@@ -7,7 +7,7 @@ import android.database.Cursor;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
+import android.provider.OpenableColumns;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
@@ -26,6 +26,7 @@ import java.io.File;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final int RQ_CODE = 13;
     private TextView mainTextView;
     private Context context;
     private Button button_remove, button_delete;
@@ -73,17 +74,34 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        openSocialPage(item.getItemId());
+        if (item.getItemId() == R.id.new_task) {
+            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            intent.setType("audio/*");
+            startActivityForResult(intent, RQ_CODE);
+        }
+        else
+            openSocial(item.getItemId());
+
         return super.onOptionsItemSelected(item);
     }
 
-    private void openSocialPage(int itemId) {
+    private void openSocial(int itemId) {
         Uri uri = (itemId == R.id.github) ?
                 Uri.parse("https://github.com/FrankCharlz/Demkito") :
                 Uri.parse("https://twitter.com/mjcharlz") ;
 
         Intent i = new Intent(Intent.ACTION_VIEW, uri);
         startActivity(i);
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RQ_CODE && data != null){
+         processIntent(data);
+        }
     }
 
     private void initViews() {
@@ -123,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
         String html = "To use this app: \n" +
                 "<br><br>Go to your <strong>audio player</strong> or <strong>file browser</strong>" +
                 "<br><br>Select the song you want to edit and press <strong>share</strong>" +
-                "<br><br>In the context menu select <strong>Demkito</strong>.";
+                "<br><br>In the context menu select <strong><U>Demkito</U></strong>.";
         mainTextView.setText(Html.fromHtml(html));
     }
 
@@ -199,19 +217,11 @@ public class MainActivity extends AppCompatActivity {
 
         M.logger("URI WAY: "+uri.toString());
 
-        Cursor cursor = null;
-        try {
-            String[] proj = { MediaStore.Audio.Media.DATA };
-            cursor = context.getContentResolver().query(uri,  proj, null, null, null);
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);
-            cursor.moveToFirst();
-            return cursor.getString(column_index);
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-    }
+        Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+        int nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+        cursor.moveToFirst();
+        return cursor.getString(nameIndex);
+}
 
     private void processIntent(final Intent intent) {
         String path = getFilePath(intent);
