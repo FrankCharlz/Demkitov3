@@ -78,6 +78,7 @@ public class M {
     }
 
 
+
     public static String randomString(int length) {
         Random random = new Random();
         StringBuilder sb = new StringBuilder();
@@ -92,5 +93,9 @@ public class M {
                 sb.append((char)('a' + random.nextInt(26)));
         }
         return sb.toString();
+    }
+
+    public static void toaster(Context context, String str, int p) {
+        Toast.makeText(context, str, Toast.LENGTH_LONG).show();
     }
 }

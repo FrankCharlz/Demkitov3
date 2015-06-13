@@ -14,12 +14,19 @@ import java.io.IOException;
 
 public class ContentHelpers {
 
+    /***
+     * I will implement this using outputstream from the uri but not very soon
+     */
+
     Context context;
 
     public ContentHelpers(Context context) {
         this.context = context;
     }
 
+    public boolean deleteFile() {
+        return false;
+    }
 
     public String getFilePath(Intent intent) {
         String result = getFilePathStreamWay(intent);
@@ -77,6 +84,8 @@ public class ContentHelpers {
         }
         return  null;
     }
+
+
 
 
 

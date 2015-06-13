@@ -20,7 +20,7 @@ public class Song  extends CheapMP3 {
 
     //range of five seconds ndo ads zao zilipo
     static int cut_0 = (int)(4000/26) ;
-    static int cut_1 = (int)(10000/26) ;
+    static int cut_1 = (int)(12000/26) ;
 
     //in case ur fucked just cut here...
     static int the_cut_frame = (int)(7000/26);
@@ -29,6 +29,7 @@ public class Song  extends CheapMP3 {
     private boolean isSolved = false;
     private  boolean isClean = false;
     private String techInfo = "Not processed";
+    private String cleanPath;
 
     public Song(Context context, String path) {
         this.songfile = new File(path);
@@ -86,7 +87,9 @@ public class Song  extends CheapMP3 {
 
     public boolean removeAds(File cleanFile) {
         try {
+            if (cleanFile.exists()) {cleanFile.delete();}
             super.WriteFile(cleanFile, the_cut_frame, getNumFrames() - the_cut_frame);
+            cleanPath = cleanFile.getAbsolutePath();
             return true;
         } catch (IOException e) {
             M.logger("Failed to write new file :" +e.getLocalizedMessage());
@@ -137,5 +140,16 @@ public class Song  extends CheapMP3 {
 
     public boolean isCleaned() {
         return isClean;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public String getCleanPath() {
+        if (isClean)
+            return cleanPath;
+        else
+            return path;
     }
 }

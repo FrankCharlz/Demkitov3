@@ -12,9 +12,4 @@
         android:title="Tweeter"
         app:showAsAction="always"/>
 
-    <item android:id="@+id/github"
-        android:icon="@drawable/github"
-        android:title="Github"
-        app:showAsAction="always"/>
-
 </menu>

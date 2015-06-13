@@ -3,6 +3,7 @@ package com.mj.demkito;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -17,6 +18,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.mj.utils.AudioPlayer;
 import com.mj.utils.ContentHelpers;
 import com.mj.utils.M;
 
@@ -31,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
     private boolean animation_started = false;
     private Song song;
     private ContentHelpers contentHelper;
+    private AudioPlayer audioPlayer;
+    private boolean audio_playing = false;
 
 
     @Override
@@ -88,10 +92,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void openSocial(int itemId) {
-        Uri uri = (itemId == R.id.github) ?
-                Uri.parse("https://github.com/FrankCharlz/Demkito") :
-                Uri.parse("https://twitter.com/mjcharlz") ;
-
+        Uri uri = Uri.parse("https://twitter.com/mjcharlz") ;
         Intent i = new Intent(Intent.ACTION_VIEW, uri);
         startActivity(i);
     }
@@ -139,7 +140,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showInstructions() {
-        //setContentView(R.layout.activity_no_song);
         mainTextView.setTypeface(roboto);
         String html = "To use this app: \n" +
                 "<br><br>Go to your <strong>audio player</strong> or <strong>file browser</strong>" +
@@ -163,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
 
                     case R.id.button2:
-                        deleteOriginalSong();
+                        previewSong();
                         break;
                     default:break;
                 }
@@ -172,14 +172,30 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void registerFileToMediaDb(File file) {
+        MediaScannerConnection.scanFile(this,
+                new String[] { file.getAbsolutePath()}, null,
+                new MediaScannerConnection.OnScanCompletedListener() {
+                    public void onScanCompleted(String path, Uri uri) {
+                        M.logger("Media scanner completed");
+                    }
+                });
+    }
+
 
     private void demkitoSong() {
+        if (song.isCleaned()) {
+            M.toaster(this, "Ads already removed");
+            return;//cease execution
+        }
         if (song.isValid()) {
             File clean_file = new File(M.DEMKITO_FOLDER+""+song.getName());
             boolean success = song.removeAds(clean_file);
             if(success) {
-                M.toaster(this,"Ads removed succesfully");
                 song.setCleaned();
+                audioPlayer.setCleanPath();
+                registerFileToMediaDb(clean_file);
+                M.toaster(this,"Ad free song saved:\n"+clean_file.getAbsolutePath(),0);
             }
             else { M.toaster(this, "Failed to remove ads.");}
         } else {
@@ -187,20 +203,29 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void deleteOriginalSong() {
-        if (song.isCleaned()) {
-            boolean success = song.deleteOriginal();
-            //if u can destroy the object do that later
-            song.invalidate();
-            if (success)
-                M.toaster(this, "Original song is deleted.");
-            else
-                M.toaster(this, "Failed to delete original song.\nYou have to delete it manually");
+    private void previewSong() {
+        if (song.isValid()) {
+            if (audio_playing) {
+                audioPlayer.stop();
+                audio_playing = false;
+                button_delete.setText("PREVIEW");
+            }
+            else {
+                audioPlayer.play();
+                audio_playing = true;
+                button_delete.setText("STOP");
+            }
+
         } else {
-            M.toaster(this, "Selected song still has ads");
+            M.toaster(this, "Selected file is *;&%$");
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        if (audioPlayer != null) audioPlayer.turnOff();
+        super.onDestroy();
+    }
 
     private void processIntent(final Intent intent) {
         String path = contentHelper.getFilePath(intent);
@@ -214,6 +239,11 @@ public class MainActivity extends AppCompatActivity {
         song = new Song(this, path);
         song.solve();
         mainTextView.setText(song.toString());
+
+        //turn off audio player..
+        if (audioPlayer != null) audioPlayer.turnOff();
+        //turn it on...
+        audioPlayer = new AudioPlayer(song);
     }
 
     private void quitProcess(String str) {

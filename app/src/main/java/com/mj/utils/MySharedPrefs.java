@@ -16,8 +16,8 @@ import java.util.Locale;
 public class MySharedPrefs {
 
     private static final String SP_FILE = "XData";
-    private static final int ANDROID_POST_CODE =  1693;
-    private static final String DEVICE_ID_TAG = "kIoPPi";
+    private static final int ANDROID_POST_CODE =  1962;
+    private static final String DEVICE_ID_TAG = "kgIo6PPi";
 
     public static void saveSongInfo(final Context context, final String str) {
         context
