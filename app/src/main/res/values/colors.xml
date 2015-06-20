@@ -8,4 +8,6 @@
     <color name="transparent">#00ffffff</color>
     <color name="text_view_bg">#953b3849</color>
     <color name="cb_background">#3b3849</color>
+    <color name="myvaste">#10b27c</color>
+
 </resources>
