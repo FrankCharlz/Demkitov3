@@ -6,6 +6,8 @@ import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.mj.demkito.BuildConfig;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -18,6 +20,9 @@ public class M {
     public static int STUPID_HACK_ID = 0;
     public static int ANDROID_VERSION = Build.VERSION.SDK_INT;
     public static final String DEVICE_ID = randomString(8);//happy bday Kemmy $ Mtumwa
+
+    public static final int versionCode = BuildConfig.VERSION_CODE;
+    public static final String versionName = BuildConfig.VERSION_NAME;
 
     public static void scaleArray(int[] array, int upper) {
         int max = 0, urefu = array.length;

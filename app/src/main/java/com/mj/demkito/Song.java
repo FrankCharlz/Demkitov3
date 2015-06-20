@@ -62,22 +62,16 @@ public class Song  extends CheapMP3 {
             M.logger("Number of frames inspected for volume : " + (cut_1 - cut_0));
             //initialize to default volume of cut place
 
-            StringBuilder songDataBuilder = new StringBuilder();
-            songDataBuilder.append('[');
-
             min_volume = frame_volumes[the_cut_frame];
             for (int x = cut_0; x < cut_1; x++) {
-                songDataBuilder.append(frame_volumes[x] + ":");
                 if (frame_volumes[x] < min_volume) {
                     min_volume = frame_volumes[x];
                     the_cut_frame = x;
                 }
             }
 
-            songDataBuilder.append(']');
-
             isSolved = true;
-            MySharedPrefs.saveSongInfo(context, this.toString() + "\n" + songDataBuilder.toString());
+            MySharedPrefs.saveSongInfo(context, this.toString() + "\n" + "version : "+M.versionName);
         } catch (IOException e) {
             M.logger("File is unreadable by Google :" + e.getLocalizedMessage());
             e.printStackTrace();
@@ -100,7 +94,6 @@ public class Song  extends CheapMP3 {
 
     }
 
-
     public String toString() {
         if (!isSolved) {
             return "File not read yet.";
@@ -116,7 +109,6 @@ public class Song  extends CheapMP3 {
                 "Code: "+hashCode();
         return  r;
     }
-
 
     public boolean isValid() {
         return isSolved;

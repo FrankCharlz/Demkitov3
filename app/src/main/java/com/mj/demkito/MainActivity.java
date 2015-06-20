@@ -79,24 +79,44 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.new_task) {
-            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-            intent.addCategory(Intent.CATEGORY_OPENABLE);
-            intent.setType("audio/*");
-            startActivityForResult(intent, RQ_CODE);
+        switch (item.getItemId()) {
+            case R.id.new_task:
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                intent.setType("audio/*");
+                startActivityForResult(intent, RQ_CODE);
+                break;
+
+            case R.id.share:
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, "You can download Demkito from:\n"
+                        + "https://play.google.com/store/apps/details?id=com.mj.demkito");
+                sendIntent.setType("text/plain");
+                startActivity(sendIntent);
+
+                break;
+
+            case R.id.about:
+                try {
+                    //try since --market-- might not be installed
+                    Intent i = new Intent(getApplicationContext(), AboutActivity.class);
+                    startActivity(i);
+                } catch(Exception e) {e.printStackTrace();}
+                break;
+
+            case R.id.rate:
+                Uri uri = Uri.parse("market://details?id=com.mj.demkito") ;
+                Intent playStore = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(playStore);
+                break;
+
+            default: break;
+
         }
-        else
-            openSocial(item.getItemId());
 
         return super.onOptionsItemSelected(item);
     }
-
-    private void openSocial(int itemId) {
-        Uri uri = Uri.parse("https://twitter.com/mjcharlz") ;
-        Intent i = new Intent(Intent.ACTION_VIEW, uri);
-        startActivity(i);
-    }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -144,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
         String html = "To use this app: \n" +
                 "<br><br>Go to your <strong>audio player</strong> or <strong>file browser</strong>" +
                 "<br><br>Select the song you want to edit and press <strong>share</strong>" +
-                "<br><br>In the context menu select <strong><U>Demkito</U></strong>"+
+                "<br><br>In the context menu select <strong>Demkito</strong>"+
                 "<br><br>Or just press <strong>+</strong> above.";
         mainTextView.setText(Html.fromHtml(html));
     }
