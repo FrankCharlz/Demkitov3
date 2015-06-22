@@ -209,7 +209,7 @@ public class MainActivity extends AppCompatActivity {
             return;//cease execution
         }
         if (song.isValid()) {
-            File clean_file = new File(M.DEMKITO_FOLDER+""+song.getName());
+            File clean_file = new File(M.DEMKITO_FOLDER+""+contentHelper.getFileName());
             boolean success = song.removeAds(clean_file);
             if(success) {
                 song.setCleaned();

@@ -14,11 +14,21 @@ import java.io.IOException;
 
 public class ContentHelpers {
 
+
     /***
      * I will implement this using outputstream from the uri but not very soon
      */
 
-    Context context;
+    private Context context;
+    private String fileName;
+
+    public Context getContext() {
+        return context;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
 
     public ContentHelpers(Context context) {
         this.context = context;
@@ -68,6 +78,7 @@ public class ContentHelpers {
 
         //dangerous file names...
         if (fname.length() < 4) return null;
+        this.fileName = fname.trim()+".mp3";
 
         //failed to get path, so make tempo with name.
         try {
@@ -77,6 +88,7 @@ public class ContentHelpers {
             M.kopiInputToOutPutStreams(bis, bos);
             temp_name = temp.getAbsolutePath();
             M.logger("Temp path : "+temp_name);
+            M.logger("fname : "+fname);
             return temp_name;
         } catch (IOException e) {
             M.logger("Failed to make temp file.");
@@ -84,9 +96,6 @@ public class ContentHelpers {
         }
         return  null;
     }
-
-
-
 
 
 
