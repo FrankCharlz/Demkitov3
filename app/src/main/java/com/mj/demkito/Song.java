@@ -18,7 +18,7 @@ public class Song  extends CheapMP3 {
     private final File songfile;
     private int[] frame_volumes;
 
-    //range of five seconds ndo ads zao zilipo
+    //range of eoght seconds ndo ads zao zilipo
     static int cut_0 = (int)(4000/26) ;
     static int cut_1 = (int)(12000/26) ;
 
@@ -28,7 +28,6 @@ public class Song  extends CheapMP3 {
     private int min_volume;
     private boolean isSolved = false;
     private  boolean isClean = false;
-    private String techInfo = "Not processed";
     private String cleanPath;
 
     public Song(Context context, String path) {
@@ -40,7 +39,7 @@ public class Song  extends CheapMP3 {
 
 
 
-    private String getFileName(String path) {
+    public static  String getFileName(String path) {
         int f = path.lastIndexOf("/");
         return (f > 0) ? path.substring( ++f, path.length()) : "Failed to get file name";
 
@@ -79,14 +78,14 @@ public class Song  extends CheapMP3 {
     }
 
 
-    public boolean removeAds(File cleanFile) {
+    public boolean removeAds(File output_file) {
         try {
-            if (cleanFile.exists()) {cleanFile.delete();}
-            super.WriteFile(cleanFile, the_cut_frame, getNumFrames() - the_cut_frame);
-            cleanPath = cleanFile.getAbsolutePath();
+            if (output_file.exists()) {output_file.delete();}
+            super.WriteFile(output_file, the_cut_frame, getNumFrames() - the_cut_frame);
+            cleanPath = output_file.getAbsolutePath();
             return true;
         } catch (IOException e) {
-            M.logger("Failed to write new file :" +e.getLocalizedMessage());
+            M.logger("Failed to write clean file :" +e.getLocalizedMessage());
             e.printStackTrace();
         }
 

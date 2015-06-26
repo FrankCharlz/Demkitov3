@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.OpenableColumns;
 
+import com.mj.demkito.Song;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -52,6 +54,7 @@ public class ContentHelpers {
         String res = null;
         M.logger("uri string: "+uri.toString());
         res = uri.getPath();
+        this.fileName = Song.getFileName(res);
         return res;
     }
 

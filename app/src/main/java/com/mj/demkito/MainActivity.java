@@ -160,7 +160,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showInstructions() {
-        mainTextView.setTypeface(roboto);
         String html = "To use this app: \n" +
                 "<br><br>Go to your <strong>audio player</strong> or <strong>file browser</strong>" +
                 "<br><br>Select the song you want to edit and press <strong>share</strong>" +
@@ -208,6 +207,12 @@ public class MainActivity extends AppCompatActivity {
             M.toaster(this, "Ads already removed");
             return;//cease execution
         }
+
+        if (!song.isValid()) {
+            M.toaster(this , "The song can not be cut");
+            return;
+        }
+
         if (song.isValid()) {
             File clean_file = new File(M.DEMKITO_FOLDER+""+contentHelper.getFileName());
             boolean success = song.removeAds(clean_file);
@@ -216,11 +221,11 @@ public class MainActivity extends AppCompatActivity {
                 audioPlayer.setCleanPath();
                 registerFileToMediaDb(clean_file);
                 M.toaster(this,"Ad free song saved:\n"+clean_file.getAbsolutePath(),0);
-            }
-            else { M.toaster(this, "Failed to remove ads.");}
-        } else {
-            M.toaster(this , "The song can not be cut");
+            } else { M.toaster(this, "Failed to remove ads.");}
+
         }
+
+
     }
 
     private void previewSong() {
@@ -251,7 +256,7 @@ public class MainActivity extends AppCompatActivity {
         String path = contentHelper.getFilePath(intent);
         if (path == null) {quitProcess(""); return;}
 
-        if (!path.endsWith(".mp3") && !path.endsWith(".mp4") && !path.endsWith(".3ga")) {
+        if ( !(path.endsWith(".mp3") || path.endsWith(".mp4") || path.endsWith(".3ga"))) {
             quitProcess("Format not supported");
             return;
         }

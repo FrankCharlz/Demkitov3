@@ -8,9 +8,4 @@
         android:duration="500"
         />
 
-    <rotate
-        android:toDegrees="304"
-        android:duration="500"
-        android:repeatCount="2"
-        />
 </set>
