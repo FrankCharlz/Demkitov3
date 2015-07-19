@@ -164,7 +164,8 @@ public class MainActivity extends AppCompatActivity {
                 "<br><br>Go to your <strong>audio player</strong> or <strong>file browser</strong>" +
                 "<br><br>Select the song you want to edit and press <strong>share</strong>" +
                 "<br><br>In the context menu select <strong>Demkito</strong>"+
-                "<br><br>Or just press <strong>+</strong> above.";
+                "<br><br>Or just press <strong>+</strong> above."+
+                "<br><br>Files are saved in <strong>sdcard/demkito</strong> folder.";
         mainTextView.setText(Html.fromHtml(html));
     }
 
