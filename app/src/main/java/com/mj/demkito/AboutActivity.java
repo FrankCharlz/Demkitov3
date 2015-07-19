@@ -28,10 +28,9 @@ public class AboutActivity extends AppCompatActivity {
         initViews();
 
         String emoji1 = new String(Character.toChars(0x1f602));
-        String emoji2 = new String(Character.toChars(0x1f61c));
+        String emoji2 = new String(Character.toChars(0x1f660));
         String emoji3 = new String(Character.toChars(0x1f628));
-        String str = "Caused by: java.lang.NullPointerException\nTry again next time ... "
-                    +"Hah haaha hhaa \nCrazy me<! "+emoji1+emoji2+emoji1+emoji2+emoji1+emoji2+emoji3;
+        String str = "All cleaned files are saved to [/sdcard/Demkito]\nEnjoy "+emoji1+emoji2+emoji1+emoji2+emoji1+emoji2+emoji3;
         body_tv.setText(str);
 
 

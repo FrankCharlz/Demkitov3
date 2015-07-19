@@ -1,7 +1,6 @@
 package com.mj.utils;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -18,6 +17,7 @@ public class MySharedPrefs {
     private static final String SP_FILE = "XData";
     private static final int ANDROID_POST_CODE =  1962;
     private static final String DEVICE_ID_TAG = "kgIo6PPi";
+    private static final String SONGS_CLEANED = "Songs_cleaned";
 
     public static void saveSongInfo(final Context context, final String str) {
         context
@@ -30,21 +30,31 @@ public class MySharedPrefs {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                trivialPostData("device-id:"+getDeviceId(context)+"\n"+str);
+                trivialPostData("device-id:"+getTimeStamp()+"\nCleaned songs: "+
+                        getCleanedSongs(context)+"\n"+
+                        getDeviceId()+"\n"+str);
             }
         }).start();
     }
 
-    public static String getDeviceId(Context context) {
+    private static int getCleanedSongs(Context context) {
+        return context.getSharedPreferences(SP_FILE, 0).getInt(SONGS_CLEANED, -2);
+    }
 
-        SharedPreferences sp = context.getSharedPreferences(SP_FILE, 0);
+    public static String getDeviceId() {
 
-        if (!sp.contains(DEVICE_ID_TAG))
-            sp.edit().putString(DEVICE_ID_TAG, M.DEVICE_ID).commit();
+        if (!Remember.containsKey(DEVICE_ID_TAG))
+            Remember.putString(DEVICE_ID_TAG, M.DEVICE_ID);
 
-        return sp.getString(DEVICE_ID_TAG, "missing-device-id");
+        return Remember.getString(DEVICE_ID_TAG, "missing-device-id");
 
     }
+
+    public static void incrementoo(Context context) {
+        int ns = Remember.getInt(SONGS_CLEANED, 0);
+        Remember.putInt(SONGS_CLEANED, ns + 1);
+    }
+
 
     private static void trivialPostData(String str) {
         MultipartEntity entity = new MultipartEntity();

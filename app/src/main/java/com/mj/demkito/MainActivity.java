@@ -224,8 +224,6 @@ public class MainActivity extends AppCompatActivity {
             } else { M.toaster(this, "Failed to remove ads.");}
 
         }
-
-
     }
 
     private void previewSong() {
