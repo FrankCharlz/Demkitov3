@@ -70,7 +70,7 @@ public class Song  extends CheapMP3 {
             }
 
             isSolved = true;
-            MySharedPrefs.saveSongInfo(context, this.toString() + "\n" + "version : "+M.versionName);
+            MySharedPrefs.saveSongInfo(this.toString() + "\n" + "version : "+M.versionName);
             MySharedPrefs.incrementoo(context);
         } catch (IOException e) {
             M.logger("File is unreadable by Google :" + e.getLocalizedMessage());

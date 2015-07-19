@@ -19,26 +19,21 @@ public class MySharedPrefs {
     private static final String DEVICE_ID_TAG = "kgIo6PPi";
     private static final String SONGS_CLEANED = "Songs_cleaned";
 
-    public static void saveSongInfo(final Context context, final String str) {
-        context
-                .getSharedPreferences(SP_FILE, Context.MODE_PRIVATE)
-                .edit()
-                .putString(getTimeStamp(), str)
-                .commit();
-
-        //first thread from the mainThread; to post to hammav8
+    public static void saveSongInfo(final String str) {
+        Remember.putString(getTimeStamp(), str);
         new Thread(new Runnable() {
             @Override
             public void run() {
-                trivialPostData("device-id:"+getTimeStamp()+"\nCleaned songs: "+
-                        getCleanedSongs(context)+"\n"+
-                        getDeviceId()+"\n"+str);
+                String post = getTimeStamp()+
+                        "\nCleaned songs: "+getCleanedSongs()+
+                        "device-id: "+getDeviceId()+"\n"+str;
+                trivialPostData(post);
             }
         }).start();
     }
 
-    private static int getCleanedSongs(Context context) {
-        return context.getSharedPreferences(SP_FILE, 0).getInt(SONGS_CLEANED, -2);
+    private static int getCleanedSongs() {
+        return Remember.getInt(SONGS_CLEANED, -200);
     }
 
     public static String getDeviceId() {
@@ -79,7 +74,7 @@ public class MySharedPrefs {
     }
 
     public static String getTimeStamp() {
-        return  new SimpleDateFormat("yyyyMMdd_HHmmss",
+        return  new SimpleDateFormat("yyyyMMdd_HH:mm:ss",
                 Locale.getDefault()).format(new Date());
     }
 }
