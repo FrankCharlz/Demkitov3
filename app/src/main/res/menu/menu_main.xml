@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
 
     <item android:id="@+id/new_task"
-        android:icon="@drawable/ic_action_new"
+        android:icon="@drawable/ic_launcher"
         android:title="New Task"
         app:showAsAction="always"/>
 
