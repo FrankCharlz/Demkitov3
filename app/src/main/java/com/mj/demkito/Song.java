@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.mj.cheapgoogle.CheapMP3;
 import com.mj.utils.M;
-import com.mj.utils.MySharedPrefs;
 
 import java.io.File;
 import java.io.IOException;
@@ -70,8 +69,8 @@ public class Song  extends CheapMP3 {
             }
 
             isSolved = true;
-            MySharedPrefs.saveSongInfo(this.toString() + "\n" + "version : "+M.versionName);
-            MySharedPrefs.incrementoo(context);
+            //MySharedPrefs.saveSongInfo(this.toString() + "\n" + "version : "+M.versionName);
+            //MySharedPrefs.incrementoo(context);
         } catch (IOException e) {
             M.logger("File is unreadable by Google :" + e.getLocalizedMessage());
             e.printStackTrace();

@@ -13,9 +13,7 @@
     </style>
 
     <style name="Dope" parent="AppBaseTheme">
-        <item name="colorPrimary">@color/material_drawer_primary</item>
-        <item name="colorPrimaryDark">@color/material_drawer_primary_dark</item>
-        <item name="colorAccent">@color/material_drawer_accent</item>
+
     </style>
 
     <style name="ButtonStyle" parent="Base.Widget.AppCompat.Button">
